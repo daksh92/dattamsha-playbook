@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dattamsha Data Labs | The HR Strategic Playbook</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configure Tailwind for custom styles and use Helvetica font -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dattamsha-dark': '#1E293B', // Slate 900
+                        'dattamsha-light': '#F8FAFC', // Slate 50
+                        'dattamsha-accent': '#06B6D4', // Cyan 500
+                        'dattamsha-secondary': '#64748B', // Slate 500
+                    },
+                    fontFamily: {
+                        // Set the default sans font to Helvetica with fallbacks
+                        sans: ['Helvetica', 'Arial', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Using system fonts (Helvetica) ensures maximum cleanliness and performance */
+        html { scroll-behavior: smooth; }
+        
+        /* Professional Card Lift Effect */
+        .card-lift {
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .card-lift:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        /* Style for the generated output box - ensuring fixed-width font */
+        #agent-output {
+            white-space: pre-wrap;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-size: 0.9rem;
+            line-height: 1.5; /* Improved readability for code blocks */
+        }
+        /* Increased global line height for better body text readability */
+        body {
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body class="font-sans text-dattamsha-dark bg-white">
+
+    <!-- Header & Navigation (Fully responsive and sticky) -->
+    <header class="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo/Brand Name -->
+                <a href="#" class="flex items-center space-x-2">
+                    <span class="text-2xl font-black text-dattamsha-dark tracking-tight">Dattamsha</span>
+                    <span class="text-xs text-dattamsha-accent font-semibold uppercase tracking-widest pt-1 hidden sm:block">Playbook</span>
+                </a>
+
+                <!-- Navigation Links -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#playbook" class="text-sm font-medium text-dattamsha-secondary hover:text-dattamsha-accent transition duration-150">The 4-Step Playbook</a>
+                    <a href="#ai-agents" class="text-sm font-medium text-dattamsha-secondary hover:text-dattamsha-accent transition duration-150">Agentic AI</a>
+                    <a href="#nudge-engine" class="text-sm font-medium text-dattamsha-secondary hover:text-dattamsha-accent transition duration-150">Nudge Engine</a>
+                    <a href="#about" class="text-sm font-medium text-dattamsha-secondary hover:text-dattamsha-accent transition duration-150">Leadership</a>
+                    <a href="#contact" class="text-sm font-bold text-dattamsha-accent hover:text-dattamsha-dark transition duration-150 border-b-2 border-transparent hover:border-dattamsha-accent">Contact Us</a>
+                </nav>
+                
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-dattamsha-dark hover:text-dattamsha-accent focus:outline-none p-2 rounded-md">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-xl border-t border-gray-100">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#playbook" class="block px-3 py-2 rounded-md text-base font-medium text-dattamsha-dark hover:bg-dattamsha-light">The 4-Step Playbook</a>
+                <a href="#ai-agents" class="block px-3 py-2 rounded-md text-base font-medium text-dattamsha-dark hover:bg-dattamsha-light">Agentic AI</a>
+                <a href="#nudge-engine" class="block px-3 py-2 rounded-md text-base font-medium text-dattamsha-dark hover:bg-dattamsha-light">Nudge Engine</a>
+                <a href="#about" class="block px-3 py-2 rounded-md text-base font-medium text-dattamsha-dark hover:bg-dattamsha-light">Leadership</a>
+                <a href="#contact" class="block px-3 py-2 rounded-md text-base font-medium text-dattamsha-accent hover:bg-dattamsha-light">Contact Us</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="py-24 md:py-36 bg-dattamsha-dark text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-sm font-semibold tracking-wider text-dattamsha-accent uppercase mb-4">Product-Led HR Transformation</p>
+            <h1 class="text-5xl md:text-7xl font-extrabold leading-tight mb-6">
+                The Operating System for People-Led <span class="text-dattamsha-accent">Decisions</span>
+            </h1>
+            <!-- FIX APPLIED HERE: Changed ** to <strong> tags for reliable bold rendering -->
+            <p class="mt-4 text-lg md:text-xl text-gray-300 max-w-4xl mx-auto">
+                We bridge the <strong>Data, Insights, Action, and Behavior</strong> divides with a scalable, productized platform, turning HR from a cost center into a continuous driver of P&L value.
+            </p>
+            <div class="mt-10">
+                <a href="#contact" class="inline-flex items-center justify-center px-10 py-4 border-2 border-dattamsha-accent text-lg font-bold rounded-full text-dattamsha-dark bg-dattamsha-accent hover:bg-dattamsha-accent/80 transition duration-300 shadow-2xl hover:shadow-dattamsha-accent/50">
+                    Request Custom ROI Assessment
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Dattamsha Playbook (4 Steps) -->
+    <section id="playbook" class="py-20 md:py-32 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-5xl font-extrabold text-center mb-4 text-dattamsha-dark">The 4-Step Strategy: Bridging Every Divide</h2>
+            <p class="text-xl text-center text-dattamsha-secondary mb-16 max-w-4xl mx-auto">
+                We address the fundamental challenges facing modern HR functions with a structured, phased approach to adoption and value delivery.
+            </p>
+
+            <div class="grid lg:grid-cols-4 md:grid-cols-2 gap-8">
+                
+                <!-- Step 1: Data Divide & Data OS -->
+                <div class="p-8 bg-dattamsha-light border-l-4 border-dattamsha-accent rounded-xl shadow-lg card-lift">
+                    <span class="text-sm font-extrabold text-dattamsha-accent block mb-2">STEP 1</span>
+                    <h3 class="text-2xl font-bold text-dattamsha-dark mb-4">The Data OS</h3>
+                    <p class="text-gray-700 font-medium">
+                        <strong>Problem: The Data Divide.</strong> Siloed HR, ATS, and Payroll data.
+                    </p>
+                    <p class="text-gray-700 mt-3">
+                        <strong>Solution: Unified Data Fabric.</strong> A productized data engineering layer with guaranteed-SLA connectors to establish a single source of truth in weeks.
+                    </p>
+                    <p class="text-xs font-semibold text-dattamsha-secondary mt-4">
+                        Outcome: 70% reduction in custom data engineering costs.
+                    </p>
+                </div>
+
+                <!-- Step 2: Insights Divide & Financial Brain -->
+                <div class="p-8 bg-dattamsha-light border-l-4 border-dattamsha-accent rounded-xl shadow-lg card-lift">
+                    <span class="text-sm font-extrabold text-dattamsha-accent block mb-2">STEP 2</span>
+                    <h3 class="text-2xl font-bold text-dattamsha-dark mb-4">The Financial Brain</h3>
+                    <p class="text-gray-700 font-medium">
+                        <strong>Problem: The Insights Divide.</strong> Descriptive, non-financially linked reports.
+                    </p>
+                    <p class="text-gray-700 mt-3">
+                        <strong>Solution: P&L-Linked Insight Modules.</strong> Predictive analytics (e.g., Attrition Cost Modeler) that integrate with finance systems to show real ROI.
+                    </p>
+                    <p class="text-xs font-semibold text-dattamsha-secondary mt-4">
+                        Outcome: Justify HR initiatives in the language of the CFO.
+                    </p>
+                </div>
+
+                <!-- Step 3: Action Divide & Agentic AI Co-pilot -->
+                <div class="p-8 bg-dattamsha-light border-l-4 border-dattamsha-accent rounded-xl shadow-lg card-lift">
+                    <span class="text-sm font-extrabold text-dattamsha-accent block mb-2">STEP 3</span>
+                    <h3 class="text-2xl font-bold text-dattamsha-dark mb-4">The Agentic Co-pilot</h3>
+                    <p class="text-gray-700 font-medium">
+                        <strong>Problem: The Action Divide.</strong> Insights require manual analyst queries and execution.
+                    </p>
+                    <p class="text-gray-700 mt-3">
+                        <strong>Solution: Agentic AI Layer.</strong> A premium suite of AI agents (Analyst, Compliance, Workflow) that execute multi-step tasks across systems autonomously.
+                    </p>
+                    <p class="text-xs font-semibold text-dattamsha-secondary mt-4">
+                        Outcome: Move from reporting to automated action execution.
+                    </p>
+                </div>
+                
+                <!-- Step 4: Insight-to-Action Gap & Nudge Engine -->
+                <div class="p-8 bg-dattamsha-light border-l-4 border-dattamsha-accent rounded-xl shadow-lg card-lift">
+                    <span class="text-sm font-extrabold text-dattamsha-accent block mb-2">STEP 4</span>
+                    <h3 class="text-2xl font-bold text-dattamsha-dark mb-4">The Nudge Engine</h3>
+                    <p class="text-gray-700 font-medium">
+                        <strong>Problem: The Behavior Gap.</strong> Insights fail to drive human behavioral change.
+                    </p>
+                    <p class="text-gray-700 mt-3">
+                        <strong>Solution: Behavioral Nudge Engine.</strong> Contextual, science-backed micro-interventions delivered at the optimal time to drive measurable habit change and adoption.
+                    </p>
+                    <p class="text-xs font-semibold text-dattamsha-secondary mt-4">
+                        Outcome: Instant "Aha!" moment for PLG; sustained positive colleague experiences.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Dedicated Agentic AI Section -->
+    <section id="ai-agents" class="py-20 md:py-32 bg-dattamsha-dark/95 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-4 text-white">The Agentic Layer: Automated Action Execution</h2>
+            <p class="text-xl text-center text-gray-300 mb-16 max-w-4xl mx-auto">
+                The <strong>Agentic Co-pilot</strong> eliminates the manual effort involved in complex HR processes, turning sophisticated insights into cross-system execution.
+            </p>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                
+                <!-- Agent 1: The Analyst Agent -->
+                <div class="p-6 bg-dattamsha-dark rounded-xl shadow-xl border border-dattamsha-accent/30 card-lift">
+                    <h3 class="text-xl font-bold mb-3 flex items-center text-dattamsha-accent">
+                        <svg class="w-6 h-6 mr-3 text-dattamsha-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                        The Analyst Agent
+                    </h3>
+                    <p class="text-gray-400">
+                        Enables natural language querying of the entire data fabric. Example query: <em>“Show me the correlation between manager effectiveness scores and engineering attrition in the APAC region over the last 18 months.”</em>
+                    </p>
+                </div>
+
+                <!-- Agent 2: The Workflow Agent -->
+                <div class="p-6 bg-dattamsha-dark rounded-xl shadow-xl border border-dattamsha-accent/30 card-lift">
+                    <h3 class="text-xl font-bold mb-3 flex items-center text-dattamsha-accent">
+                        <svg class="w-6 h-6 mr-3 text-dattamsha-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        The Workflow Agent
+                    </h3>
+                    <p class="text-gray-400">
+                        Automates complex, multi-step processes. Example: Automates onboarding—provisioning IT, generating compliance documents, and scheduling 30-60-90 day manager check-ins.
+                    </p>
+                </div>
+
+                <!-- Agent 3: The Compliance Agent -->
+                <div class="p-6 bg-dattamsha-dark rounded-xl shadow-xl border border-dattamsha-accent/30 card-lift">
+                    <h3 class="text-xl font-bold mb-3 flex items-center text-dattamsha-accent">
+                        <svg class="w-6 h-6 mr-3 text-dattamsha-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944c-1.478 0-2.945.197-4.331.58C5.232 4.09 3.864 5.8 3.016 7.618a11.955 11.955 0 000 8.764c.848 1.818 2.216 3.528 3.864 4.341A11.955 11.955 0 0012 21.056c1.478 0 2.945-.197 4.331-.58 1.648-.413 3.016-2.123 3.864-3.941a11.955 11.955 0 000-8.764z"></path></svg>
+                        The Compliance Agent
+                    </h3>
+                    <p class="text-gray-400">
+                        Proactively scans employee data against global labor laws and visa deadlines to <strong>flag and prevent compliance risks</strong> before they result in legal issues.
+                    </p>
+                </div>
+            </div>
+
+            <!-- START: Gemini-Powered Agentic Workflow Generator -->
+            <div class="mt-20 pt-12 border-t border-dattamsha-accent/50 max-w-4xl mx-auto">
+                <h3 class="text-3xl font-extrabold text-dattamsha-accent text-center mb-6">
+                    ✨ See the Agentic Co-pilot in Action
+                </h3>
+                <p class="text-lg text-gray-300 text-center mb-8">
+                    Enter any complex HR challenge below and see how Dattamsha's <strong>Agentic Layer</strong> instantly turns the problem into a step-by-step, actionable workflow.
+                </p>
+
+                <div class="bg-dattamsha-dark p-6 rounded-xl shadow-2xl border border-dattamsha-accent/40">
+                    <label for="hr-challenge" class="block text-lg font-semibold text-white mb-2">
+                        Your HR Challenge:
+                    </label>
+                    <input type="text" id="hr-challenge" placeholder="e.g., 'Reduce voluntary attrition by 10% in the next quarter' or 'Improve manager quality of 1:1 check-ins'" 
+                           class="w-full px-4 py-3 border border-gray-600 rounded-lg text-dattamsha-dark focus:ring-dattamsha-accent focus:border-dattamsha-accent transition duration-150 mb-4"
+                           value="Reduce employee burnout and stress." />
+                    
+                    <button id="generate-workflow-btn" 
+                            class="w-full flex items-center justify-center py-3 px-4 border-2 border-dattamsha-accent rounded-full shadow-lg text-lg font-bold text-dattamsha-dark bg-dattamsha-accent hover:bg-dattamsha-accent/80 transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span id="btn-text">Generate Agentic Workflow ✨</span>
+                        <svg id="loading-spinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-dattamsha-dark hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </button>
+                    
+                    <div id="agent-output-container" class="mt-8 pt-4 border-t border-gray-700">
+                        <p class="text-sm font-semibold text-gray-400 uppercase mb-2">Generated Agentic Workflow:</p>
+                        <div id="agent-output" class="bg-gray-800 p-4 rounded-lg text-gray-200 min-h-[100px] overflow-auto shadow-inner">
+                            Enter a challenge and click the button to see an automated Dattamsha Agent plan.
+                        </div>
+                    </div>
+                    <p id="error-message" class="text-red-400 text-sm mt-4 hidden">An error occurred while generating the workflow. Please try again.</p>
+                </div>
+            </div>
+            <!-- END: Gemini-Powered Agentic Workflow Generator -->
+        </div>
+    </section>
+
+    <!-- Dedicated Behavioral Nudge Engine Section -->
+    <section id="nudge-engine" class="py-20 md:py-32 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-4 text-dattamsha-dark">The Nudge Engine: Productizing Behavioral Science</h2>
+            <p class="text-xl text-center text-dattamsha-secondary mb-12 max-w-4xl mx-auto">
+                <strong>Behavioral Nudges</strong> are the final, critical layer, ensuring that organizational change is driven by contextual, science-backed micro-interventions, not passive reporting.
+            </p>
+
+            <div class="md:flex md:space-x-12 items-start">
+                <div class="md:w-1/2 mb-8 md:mb-0 p-6 bg-dattamsha-light rounded-xl shadow-2xl border-l-4 border-dattamsha-accent">
+                    <h3 class="text-2xl font-bold mb-4 text-dattamsha-dark">Contextual Micro-Interventions</h3>
+                    <p class="text-gray-700 mb-4">
+                        The engine moves beyond generic, mass communication. It uses AI to determine the <strong>optimal timing, context, and channel</strong> for delivering relevant content based on the employee's role, location, and activity data.
+                    </p>
+                    <ul class="space-y-3 text-gray-700 list-none">
+                        <li class="flex items-start">
+                             <!-- SVG for Bullet Point 1 -->
+                            <svg class="w-4 h-4 text-dattamsha-accent mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            <div class="flex-1">
+                                <span class="font-medium">AI-Led Employee Listening:</span> Utilizes contextual intelligence to deploy "One Question a Day" micro-surveys for a real-time sentiment pulse.
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <!-- SVG for Bullet Point 2 -->
+                            <svg class="w-4 h-4 text-dattamsha-accent mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            <div class="flex-1">
+                                <span class="font-medium">Science-Backed Framework:</span> All nudges are based on rigorous behavioral science principles to sustain or improve priority drivers of positive colleague experiences.
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="md:w-1/2 p-6 bg-dattamsha-dark text-white rounded-xl shadow-2xl border-r-4 border-dattamsha-accent">
+                    <h3 class="text-2xl font-bold mb-4 text-dattamsha-accent">Strategic Value & PLG Entry Point</h3>
+                    <p class="text-gray-300 mb-6">
+                        The Nudge Engine is strategically positioned as the <strong>viral entry point</strong> for our Product-Led Growth model, offering immediate, tangible value that managers and HRBPs desperately need.
+                    </p>
+                    <ul class="space-y-3 text-gray-300 list-none">
+                        <li class="flex items-start">
+                            <!-- SVG for Checkmark 1 -->
+                            <svg class="w-5 h-5 text-dattamsha-accent mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            <div class="flex-1">
+                                <span class="font-medium">Instant "Aha!" Moment:</span> Low-friction product that shows measurable behavioral shifts within weeks (e.g., increased performance review completion rates).
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                             <!-- SVG for Checkmark 2 -->
+                            <svg class="w-5 h-5 text-dattamsha-accent mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            <div class="flex-1">
+                                <span class="font-medium">Low-Risk Adoption:</span> Ideal for departmental subscription trials, demonstrating value before the enterprise-wide upsell of the Data Fabric and Agentic Layer.
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="py-20 md:py-32 bg-dattamsha-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-4 text-dattamsha-dark">The Expert Advantage: Built by HR Practitioners</h2>
+            <p class="text-xl text-center text-dattamsha-secondary mb-16 max-w-2xl mx-auto">
+                Our foundation is built on deep domain expertise, ensuring our products solve real-world, operational challenges, not just theoretical data problems.
+            </p>
+
+            <div class="md:flex md:items-start md:space-x-12">
+                <div class="md:w-1/3 mb-8 md:mb-0">
+                    <div class="bg-white p-8 rounded-xl shadow-2xl border border-gray-100">
+                             <!-- Placeholder for a clean professional image -->
+                        <div class="w-full h-48 bg-gray-200 rounded-lg mb-4 flex items-center justify-center">
+                            <span class="text-sm font-semibold text-gray-500">Professional Headshot Placeholder</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-dattamsha-dark">Daksh Sahni</h3>
+                        <p class="text-dattamsha-accent font-medium">Founder & CEO</p>
+                    </div>
+                </div>
+                <div class="md:w-2/3">
+                    <p class="text-lg text-gray-700 mb-6">
+                        Daksh Sahni brings <strong>over a decade of experience</strong> in HR Analytics, Compensation & Benefits, and HR Digitisation across India's leading companies (Pine Labs, Swiggy, Bharti Airtel). This background guarantees our product line is engineered to address the complexities and politics of people data integration.
+                    </p>
+                    <h4 class="text-xl font-bold mb-4 text-dattamsha-dark">Why Our Approach Wins:</h4>
+                    <ul class="space-y-4 text-gray-700 list-none">
+                        <!-- FIX APPLIED HERE: Robust flex container for perfect alignment -->
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-dattamsha-accent mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            <div class="flex-1">
+                                <span class="font-bold text-dattamsha-dark">Product-Led Model:</span> We deliver scalable, self-serve solutions with immediate time-to-value, transforming custom services into high-margin, repeatable products.
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-dattamsha-accent mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            <div class="flex-1">
+                                <span class="font-bold text-dattamsha-dark">Open-Source Flexibility:</span> We leverage powerful, cost-effective open-source technologies, avoiding vendor lock-in and allowing for precise customization.
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section (Enhanced as "Contact Us") -->
+    <section id="contact" class="py-20 md:py-32 bg-dattamsha-dark text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-5xl font-black text-center mb-4 text-white">Contact Us & Request Custom ROI Assessment</h2>
+            <p class="text-xl text-center text-gray-300 mb-16 max-w-2xl mx-auto">
+                Ready to transform your HR function? Fill out the form below, or reach out directly via email.
+            </p>
+
+            <!-- Form Container is now stark white for high contrast -->
+            <div class="max-w-xl mx-auto bg-white p-8 md:p-12 rounded-xl shadow-2xl">
+                <form action="#" method="POST" class="space-y-6">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-dattamsha-dark">Full Name</label>
+                        <input type="text" id="name" name="name" required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-dattamsha-accent focus:border-dattamsha-accent text-dattamsha-dark transition duration-150">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-dattamsha-dark">Work Email</label>
+                        <input type="email" id="email" name="email" required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-dattamsha-accent focus:border-dattamsha-accent text-dattamsha-dark transition duration-150">
+                    </div>
+                    <div>
+                        <label for="message" class="block text-sm font-medium text-dattamsha-dark">What's your primary pain point?</label>
+                        <textarea id="message" name="message" rows="4" required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-dattamsha-accent focus:border-dattamsha-accent text-dattamsha-dark transition duration-150"></textarea>
+                    </div>
+                    <button type="submit" class="w-full flex justify-center py-3 px-4 border-2 border-dattamsha-accent rounded-full shadow-lg text-lg font-bold text-dattamsha-dark bg-dattamsha-accent hover:bg-dattamsha-accent/80 transition duration-300">
+                        Book Assessment
+                    </button>
+                </form>
+
+                <div class="mt-8 text-center border-t border-gray-200 pt-6">
+                    <p class="text-lg font-bold text-dattamsha-dark mb-2">
+                        For direct inquiries, email us:
+                    </p>
+                    <a href="mailto:info@dataproducts.co.in" class="text-2xl font-black text-dattamsha-accent hover:text-dattamsha-dark transition duration-150">
+                        info@dataproducts.co.in
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dattamsha-dark/95 py-8 border-t border-dattamsha-accent/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-sm text-gray-400">&copy; 2025 Dattamsha Data Labs. All rights reserved. | Built with the Strategic HR Playbook.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Mobile Menu Toggle and Gemini API Integration -->
+    <script>
+        // --- Mobile Menu Toggle ---
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu on link click
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('mobile-menu').classList.add('hidden');
+            });
+        });
+
+
+        // --- Gemini API Integration for Agentic Workflow Generator ---
+        
+        // --- MANDATORY GLOBAL FIREBASE/API SETUP ---
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+        const apiKey = ""; // Leave as empty string. Canvas provides the key at runtime.
+        
+        const MODEL_NAME = "gemini-2.5-flash-preview-09-2025";
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${apiKey}`;
+
+        const challengeInput = document.getElementById('hr-challenge');
+        const generateButton = document.getElementById('generate-workflow-btn');
+        const buttonText = document.getElementById('btn-text');
+        const loadingSpinner = document.getElementById('loading-spinner');
+        const agentOutput = document.getElementById('agent-output');
+        const errorMessage = document.getElementById('error-message');
+
+        /**
+         * Sets the UI state to loading.
+         * @param {boolean} isLoading 
+         */
+        function setLoadingState(isLoading) {
+            generateButton.disabled = isLoading;
+            loadingSpinner.classList.toggle('hidden', !isLoading);
+            buttonText.textContent = isLoading ? 'Generating Workflow...' : 'Generate Agentic Workflow ✨';
+            errorMessage.classList.add('hidden');
+            if (isLoading) {
+                agentOutput.textContent = 'Analyzing challenge and mapping agent steps...';
+            }
+        }
+
+        /**
+         * Fetches a generated workflow from the Gemini API with retry logic.
+         * @param {string} userQuery The HR challenge from the input.
+         * @param {number} attempt The current retry attempt number.
+         * @returns {Promise<string>} The generated text.
+         */
+        async function runAgenticWorkflow(userQuery, attempt = 0) {
+            const MAX_RETRIES = 3;
+            const BASE_DELAY = 1000;
+
+            const systemPrompt = `You are the Dattamsha Agentic Co-pilot. Your task is to take a high-level HR challenge and break it down into a structured, step-by-step 4-part workflow using the Dattamsha Playbook Agents.
+
+1. DATA OS: Identify what data needs to be centralized or calculated (metrics).
+2. FINANCIAL BRAIN: Identify the P&L or ROI metric to track (financial goal).
+3. AGENTIC CO-PILOT (ACTION): Detail the multi-step, automated action the AI agents (Analyst, Workflow, Compliance) must execute.
+4. NUDGE ENGINE (BEHAVIOR): Describe the specific, contextual behavioral intervention (nudge) needed to drive change.
+
+Format your output clearly with headings for each step and use bullet points for actions. Do not use any Markdown formatting outside of the main text flow (no code blocks).`;
+
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+            };
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                if (!text) {
+                     // If we get an OK response but no text, treat it as a temporary failure
+                    throw new Error("API returned no content.");
+                }
+
+                return text;
+
+            } catch (error) {
+                console.error("API Call Error:", error);
+
+                if (attempt < MAX_RETRIES) {
+                    const delay = BASE_DELAY * Math.pow(2, attempt);
+                    console.log(`Retrying in ${delay}ms... (Attempt ${attempt + 1})`);
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    return runAgenticWorkflow(userQuery, attempt + 1);
+                } else {
+                    throw new Error("Failed to generate workflow after multiple retries.");
+                }
+            }
+        }
+
+        // --- Event Listener ---
+        generateButton.addEventListener('click', async () => {
+            const challenge = challengeInput.value.trim();
+            if (!challenge) {
+                agentOutput.textContent = 'Please enter an HR challenge to generate a workflow.';
+                return;
+            }
+
+            setLoadingState(true);
+            agentOutput.textContent = 'Analyzing challenge and mapping agent steps...';
+
+            try {
+                const workflow = await runAgenticWorkflow(`HR Challenge: ${challenge}`);
+                // Simple formatting: replace double newlines with a single newline, and single newlines with a space (unless preceded by a bullet point or heading)
+                // However, since the prompt asks for structure and bullet points, we will just display the raw text result.
+                agentOutput.textContent = workflow;
+            } catch (error) {
+                console.error("Final Workflow Generation Error:", error);
+                errorMessage.classList.remove('hidden');
+                agentOutput.textContent = 'Could not generate workflow. Please ensure you are connected to the internet and try a simpler challenge.';
+            } finally {
+                setLoadingState(false);
+            }
+        });
+
+    </script>
+</body>
+</html>
